@@ -1,0 +1,3 @@
+window.COE={_get:function(files){return Promise.all(files.map(function(f){return fetch("data/"+f).then(function(r){if(!r.ok){var e=new Error("fetch "+f+" "+r.status);e.status=r.status;throw e;}return r.json();});})).then(function(a){var o={};files.forEach(function(f,i){o[f]=a[i];});return o;});},
+load:function(files){var self=this;if(files.indexOf("quote_cards.json")>=0){return new Promise(function(res){setTimeout(res,0);}).then(function(){return self._ec?self._ec.catch(function(){}):null;}).then(function(){return self._get(files);});}
+var p=self._get(files);if(files.indexOf("entity_cards.json")>=0)self._ec=p;return p;}};
