@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 860" width="1320" height="860" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f4e79"/>
+    </marker>
+    <style>
+      .ct { font-size: 15px; font-weight: 700; fill: #1f4e79; }
+      .cb { font-size: 13px; fill: #3b4654; }
+      .cbk { font-size: 13px; font-weight: 700; fill: #1f2733; }
+      .gl { font-size: 13px; font-weight: 700; fill: #5a6676; letter-spacing: 1.2px; }
+      .lb { font-size: 12px; font-weight: 600; fill: #1f4e79; paint-order: stroke; stroke: #f8fafc; stroke-width: 5px; stroke-linejoin: round; }
+      .card { fill: #ffffff; stroke: #c9d3df; stroke-width: 1.2; }
+      .ln { fill: none; stroke: #1f4e79; stroke-width: 1.7; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1320" height="860" rx="18" fill="#f4f6f9"/>
+  <text x="24" y="40" font-size="22" font-weight="700" fill="#1f2733">How the CoE Dashboard is built</text>
+
+  <!-- tenant -->
+  <rect x="20" y="60" width="1280" height="785" rx="14" fill="#f8fafc" stroke="#1f4e79" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <text x="40" y="88" font-size="14" font-weight="700" fill="#1f4e79">The firm's own Microsoft tenant · one company sign-in (Entra ID) · the data never leaves it</text>
+
+  <!-- groups -->
+  <rect x="40" y="105" width="340" height="690" rx="12" fill="#e9eff6"/>
+  <text x="60" y="130" class="gl">MICROSOFT 365</text>
+  <rect x="480" y="105" width="470" height="690" rx="12" fill="#e4f3f4"/>
+  <text x="500" y="130" class="gl">AZURE</text>
+  <rect x="995" y="105" width="295" height="180" rx="12" fill="#e4f3f4"/>
+  <text x="1010" y="130" class="gl">AZURE · FRONT END</text>
+  <text x="1010" y="455" class="gl">PEOPLE</text>
+
+  <!-- Microsoft 365 cards -->
+  <rect class="card" x="60" y="145" width="300" height="130" rx="10"/>
+  <text x="76" y="171" class="ct">SharePoint · source workbooks</text>
+  <text x="76" y="193" class="cb">About 30 Excel files kept by Finance:</text>
+  <text x="76" y="211" class="cb">receivables, quotes, budgets,</text>
+  <text x="76" y="229" class="cb">daily collection, debtor aging</text>
+  <text x="76" y="247" class="cb">(the app can only read them)</text>
+
+  <rect class="card" x="60" y="335" width="300" height="85" rx="10"/>
+  <text x="76" y="361" class="ct">SharePoint · snapshots folder</text>
+  <text x="76" y="383" class="cb">One frozen, offline HTML copy</text>
+  <text x="76" y="401" class="cb">of the whole dashboard each week</text>
+
+  <rect class="card" x="60" y="480" width="300" height="100" rx="10"/>
+  <text x="76" y="506" class="ct">Exchange Online · shared mailbox</text>
+  <text x="76" y="528" class="cb">The only mailbox the app may send</text>
+  <text x="76" y="546" class="cb">as (Exchange access policy)</text>
+
+  <!-- Azure: Function App -->
+  <rect class="card" x="500" y="145" width="430" height="185" rx="10"/>
+  <text x="516" y="171" class="ct">Function App · Python on Azure Functions</text>
+  <text x="516" y="195" class="cb"><tspan class="cbk">Engine</tspan>  download, clean, join, classify (pandas)</text>
+  <text x="516" y="215" class="cb"><tspan class="cbk">API</tspan>  read links, comments, status, attachments</text>
+  <text x="516" y="235" class="cb"><tspan class="cbk">Timer</tspan>  weekday reminders at 09:00</text>
+  <text x="516" y="255" class="cb"><tspan class="cbk">Timer</tspan>  Saturday refresh and snapshot at 00:00</text>
+  <text x="516" y="275" class="cb"><tspan class="cbk">Lock</tspan>  only one refresh runs at a time</text>
+  <text x="516" y="305" class="cb" fill="#5a6676">Serverless: runs only when called, no machine to look after</text>
+
+  <!-- Azure: Storage account -->
+  <rect x="500" y="385" width="430" height="290" rx="10" fill="#ffffff" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="516" y="411" class="ct">Storage account · private, no public access</text>
+
+  <rect x="515" y="428" width="200" height="232" rx="8" fill="#f4f6f9" stroke="#d5dde7"/>
+  <text x="529" y="454" class="ct">Table Storage</text>
+  <text x="529" y="478" class="cbk">comments</text>
+  <text x="529" y="496" class="cb">one partition per tab:</text>
+  <text x="529" y="514" class="cb">each entry, its three</text>
+  <text x="529" y="532" class="cb">boxes, owner, Open/Closed</text>
+  <text x="529" y="566" class="cbk">hist|&lt;tab&gt;</text>
+  <text x="529" y="584" class="cb">append-only history of</text>
+  <text x="529" y="602" class="cb">every edit and status</text>
+  <text x="529" y="620" class="cb">change; nothing is</text>
+  <text x="529" y="638" class="cb">ever hard-deleted</text>
+
+  <rect x="725" y="428" width="190" height="232" rx="8" fill="#f4f6f9" stroke="#d5dde7"/>
+  <text x="739" y="454" class="ct">Blob Storage</text>
+  <text x="739" y="478" class="cbk">curated/</text>
+  <text x="739" y="496" class="cb">21 JSON files the</text>
+  <text x="739" y="514" class="cb">charts read</text>
+  <text x="739" y="548" class="cbk">comment-files/</text>
+  <text x="739" y="566" class="cb">attachments, 8 MB each</text>
+  <text x="739" y="600" class="cbk">snapshots/</text>
+  <text x="739" y="618" class="cb">a backup of every</text>
+  <text x="739" y="636" class="cb">weekly copy</text>
+
+  <rect class="card" x="500" y="700" width="430" height="75" rx="10"/>
+  <text x="516" y="726" class="ct">Application Insights</text>
+  <text x="516" y="750" class="cb">Every refresh, reminder and error is logged</text>
+
+  <!-- People -->
+  <rect class="card" x="1010" y="145" width="270" height="120" rx="10"/>
+  <text x="1026" y="171" class="ct">Static Web App</text>
+  <text x="1026" y="193" class="cb">The dashboard: HTML,</text>
+  <text x="1026" y="211" class="cb">JavaScript and Chart.js;</text>
+  <text x="1026" y="229" class="cb">filters run in the browser</text>
+
+  <rect class="card" x="1010" y="470" width="270" height="120" rx="10"/>
+  <text x="1026" y="496" class="ct">Staff browser</text>
+  <text x="1026" y="518" class="cb">Signs in with a company</text>
+  <text x="1026" y="536" class="cb">account (Entra ID); other</text>
+  <text x="1026" y="554" class="cb">accounts are turned away</text>
+
+  <rect class="card" x="1010" y="655" width="270" height="100" rx="10"/>
+  <text x="1026" y="681" class="ct">Staff inbox</text>
+  <text x="1026" y="703" class="cb">"3 open items need an update"</text>
+  <text x="1026" y="721" class="cb">again every 3 days until done</text>
+
+  <!-- arrows -->
+  <path class="ln" d="M360,205 L498,205" marker-end="url(#ah)"/>
+  <text x="430" y="194" class="lb" text-anchor="middle">Microsoft Graph</text>
+  <text x="430" y="224" class="lb" text-anchor="middle">read-only</text>
+
+  <path class="ln" d="M500,290 L430,290 L430,377 L362,377" marker-end="url(#ah)"/>
+  <text x="396" y="398" class="lb" text-anchor="middle">weekly copy</text>
+
+  <path class="ln" d="M500,315 L455,315 L455,530 L362,530" marker-end="url(#ah)"/>
+  <text x="408" y="521" class="lb" text-anchor="middle">Mail.Send</text>
+
+  <path class="ln" d="M600,330 L600,383" marker-end="url(#ah)"/>
+  <text x="608" y="362" class="lb">comments, history</text>
+  <path class="ln" d="M820,330 L820,383" marker-end="url(#ah)"/>
+  <text x="828" y="362" class="lb">curated JSON</text>
+
+  <path class="ln" d="M1010,505 L975,505 L975,237 L932,237" marker-end="url(#ah)"/>
+  <text x="994" y="371" class="lb" text-anchor="middle" transform="rotate(-90 994 371)">links, comments, files</text>
+
+  <path class="ln" d="M1010,560 L932,560" marker-end="url(#ah)"/>
+  <text x="971" y="551" class="lb" text-anchor="middle">reads JSON</text>
+  <text x="971" y="577" class="lb" text-anchor="middle">60-min link</text>
+
+  <path class="ln" d="M1145,470 L1145,267" marker-end="url(#ah)"/>
+  <text x="1153" y="364" class="lb">sign-in,</text>
+  <text x="1153" y="380" class="lb">page loads</text>
+
+  <path class="ln" d="M210,580 L210,820 L1145,820 L1145,757" marker-end="url(#ah)"/>
+  <text x="680" y="814" class="lb" text-anchor="middle">reminder digest to the owner of each quiet open item · company addresses only</text>
+</svg>
